@@ -58,11 +58,11 @@ pub fn main() void {
     // Oops! We cannot leave the 'me' and 'myself' fields
     // undefined. Please set them here:
     narcissus.me = &narcissus;
-    narcissus.??? = ???;
+    narcissus.myself = &narcissus;
 
     // This determines a "peer type" from three separate
     // references (they just happen to all be the same object).
-    const Type1 = @TypeOf(narcissus, narcissus.me.*, narcissus.myself.*);
+    const T1 = @TypeOf(narcissus, narcissus.me.*, narcissus.myself.*);
 
     // Oh dear, we seem to have done something wrong when calling
     // this function. We called it as a method, which would work
@@ -70,12 +70,12 @@ pub fn main() void {
     //
     // The fix for this is very subtle, but it makes a big
     // difference!
-    const Type2 = narcissus.fetchTheMostBeautifulType();
+    const T2 = Narcissus.fetchTheMostBeautifulType();
 
     // Now we print a pithy statement about Narcissus.
     print("A {s} loves all {s}es. ", .{
-        maximumNarcissism(Type1),
-        maximumNarcissism(Type2),
+        maximumNarcissism(T1),
+        maximumNarcissism(T2),
     });
 
     //   His final words as he was looking in
@@ -109,15 +109,15 @@ pub fn main() void {
     // Please complete these 'if' statements so that the field
     // name will not be printed if the field is of type 'void'
     // (which is a zero-bit type that takes up no space at all!):
-    if (fields[0].??? != void) {
+    if (fields[0].type != void) {
         print(" {s}", .{fields[0].name});
     }
 
-    if (fields[1].??? != void) {
+    if (fields[1].type != void) {
         print(" {s}", .{fields[1].name});
     }
 
-    if (fields[2].??? != void) {
+    if (fields[2].type != void) {
         print(" {s}", .{fields[2].name});
     }
 

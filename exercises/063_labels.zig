@@ -101,10 +101,20 @@ pub fn main() void {
     // tiny example, but it would be downright criminal in a real
     // application!
     const wanted_ingredients = [_]u8{ 0, 3 }; // Chili, Cheese
+    //
+    // var meal = menu[0];
+    //
+    // for (menu) |food| {
+    //     for (wanted_ingredients) |index| {
+    //         if (!food.requires[index]) break;
+    //     } else {
+    //         meal = food;
+    //         break;
+    //     }
+    // }
 
     // Look at each Food on the menu...
     const meal = food_loop: for (menu) |food| {
-
         // Now look at each required ingredient for the Food...
         for (food.requires, 0..) |required, required_ingredient| {
 
@@ -128,8 +138,8 @@ pub fn main() void {
         // wanted for this Food.
         //
         // Please return this Food from the loop.
-        break;
-    };
+        break food;
+    } else menu[0];
     // ^ Oops! We forgot to return Mac & Cheese as the default
     // Food when the requested ingredients aren't found.
 

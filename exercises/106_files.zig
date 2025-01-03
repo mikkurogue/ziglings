@@ -21,6 +21,8 @@
 //
 // import std as always
 const std = @import("std");
+const fs = std.fs;
+const Dir = fs.Dir;
 
 pub fn main() !void {
     // first we get the current working directory
@@ -35,7 +37,7 @@ pub fn main() !void {
         // by doing nothing
         //
         // we want to catch error.PathAlreadyExists and do nothing
-        ??? => {},
+        error.PathAlreadyExists => {},
         // if there's any other unexpected error we just propagate it through
         else => return e,
     };
@@ -44,7 +46,7 @@ pub fn main() !void {
     // wait a minute...
     // opening a directory might fail!
     // what should we do here?
-    var output_dir: std.fs.Dir = cwd.openDir("output", .{});
+    var output_dir: std.fs.Dir = try cwd.openDir("output", .{});
     defer output_dir.close();
 
     // we try to open the file `zigling.txt`,
@@ -55,7 +57,7 @@ pub fn main() !void {
     // but here we are not yet done writing to the file
     // if only there were a keyword in Zig that
     // allowed you to "defer" code execution to the end of the scope...
-    file.close();
+    defer file.close();
 
     // you are not allowed to move these two lines above the file closing line!
     const byte_written = try file.write("It's zigling time!");
